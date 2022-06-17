@@ -1,0 +1,67 @@
+/*
+
+This spotify data is from Kaggle 
+https://www.kaggle.com/datasets/equinxx/spotify-top-50-songs-in-2021?resource=download
+I created a table to insert the data and then used SQL to gather information on this data set.
+
+
+*/
+
+
+CREATE TABLE BIT_DB.Spotifydata 
+(
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms decimal(4,3) NOT NULL,
+time_signature integer NOT NULL 
+);
+
+
+SELECT *
+FROM Spotifydata
+
+
+--Artists with the most popular songs
+SELECT DISTINCT artist_name, COUNT(artist_name)NumSongs, popularity
+FROM Spotifydata
+GROUP BY artist_name
+HAVING NumSongs > 1
+ORDER BY NumSongs DESC;
+
+
+--Song stats for top three artist on spotify for 2021:
+SELECT artist_name, track_name, popularity, danceability, energy, speechiness, acousticness, instrumentalness, valence
+FROM Spotifydata
+WHERE artist_name LIKE '%Olivia%'
+ORDER BY popularity DESC;
+
+SELECT artist_name, track_name, popularity, danceability, energy, speechiness, acousticness, instrumentalness, valence
+FROM Spotifydata
+WHERE artist_name LIKE '%Doja%'
+ORDER BY popularity DESC;
+
+SELECT artist_name, track_name, popularity, danceability, energy, speechiness, acousticness, instrumentalness, valence
+FROM Spotifydata
+WHERE artist_name LIKE '%Bad Bunny%'
+ORDER BY popularity DESC;
+
+
+
+
+
+
+
