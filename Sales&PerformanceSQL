@@ -1,0 +1,88 @@
+/*
+
+Reviewing a database named chinook to review the total sales
+ and employee performance in the USA versus other countries.
+
+*/
+
+
+--Customers from USA
+SELECT * 
+FROM chinook.customers
+WHERE Country = 'USA';
+
+
+--Total spent by customers in the USA
+SELECT Cu.FirstName, SUM(Inv.Total) AS TotalSpent
+FROM chinook.customers Cu
+INNER JOIN chinook.invoices Inv
+ON Cu.CustomerID = Inv.CustomerID
+WHERE Cu.Country = 'USA'
+GROUP BY Cu.FirstName
+ORDER BY TotalSpent DESC;
+
+--Total spent by customers not in the USA
+SELECT Cu.FirstName, SUM(Inv.Total) AS TotalSpent
+FROM chinook.customers Cu
+INNER JOIN chinook.invoices Inv
+ON Cu.CustomerID = Inv.CustomerID
+WHERE Cu.Country <> 'USA'
+GROUP BY Cu.FirstName
+ORDER BY TotalSpent DESC;
+
+
+--Total sold by employees in the USA
+SELECT  Emp.LastName AS EmployeeName, Emp.Title, SUM(Inv.Total) AS TotalSold
+FROM chinook.customers Cu
+INNER JOIN chinook.employees Emp
+ON Cu.SupportRepid = Emp.Employeeid
+INNER JOIN chinook.invoices Inv
+ON Inv.CustomerID = Cu.CustomerID
+WHERE Cu.Country = 'USA'
+GROUP BY EmployeeName
+ORDER BY TotalSold DESC;
+
+
+--Total sold by employees not in the USA
+SELECT  Emp.LastName AS EmployeeName, Emp.Title, SUM(Inv.Total) AS TotalSold
+FROM chinook.customers Cu
+INNER JOIN chinook.employees Emp
+ON Cu.SupportRepid = Emp.Employeeid
+INNER JOIN chinook.invoices Inv
+ON Inv.CustomerID = Cu.CustomerID
+WHERE Cu.Country <> 'USA'
+GROUP BY EmployeeName
+ORDER BY TotalSold DESC;
+
+
+--Total Invoices sold in the USA
+SELECT COUNT(*)
+FROM chinook.Invoices Inv
+INNER JOIN chinook.customers Cu
+ON Cu.Customerid = Inv.Customerid
+WHERE Cu.Country = 'USA';
+
+
+--Total Invoices sold not in the USA
+SELECT COUNT(*)
+FROM chinook.Invoices Inv
+INNER JOIN chinook.customers Cu
+ON Cu.Customerid = Inv.Customerid
+WHERE Cu.Country <> 'USA';
+
+
+--Total Sales in the USA
+SELECT SUM(Inv.Total)
+FROM chinook.Invoices Inv
+INNER JOIN chinook.customers Cu
+ON Cu.Customerid = Inv.Customerid
+WHERE Cu.Country = 'USA';
+
+
+--Total Sales not in the USA
+SELECT SUM(Inv.Total)
+FROM chinook.Invoices Inv
+INNER JOIN chinook.customers Cu
+ON Cu.Customerid = Inv.Customerid
+WHERE Cu.Country <> 'USA';
+
