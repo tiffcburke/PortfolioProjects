@@ -1,3 +1,3 @@
-# SQL-Learning-Series
+# SQL-Courses, Classes, and Learning via Projects
 
 
